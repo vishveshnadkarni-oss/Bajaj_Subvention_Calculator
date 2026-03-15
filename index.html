@@ -1,4 +1,9 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bajaj Finance — Subvention Calculator</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#1a1a1a;color:#f0f0f0;font-size:15px;line-height:1.5;min-height:100vh}
@@ -84,8 +89,9 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#1a1a1a;
 .scroll-hint{font-size:11px;color:#555;text-align:center;padding:6px;letter-spacing:.04em}
 @media(min-width:600px){.scroll-hint{display:none}}
 </style>
+</head>
+<body>
 
-<div>
 <div class="hdr">
   <div class="hdr-badge">Bajaj Finance</div>
   <div>
@@ -222,7 +228,7 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#1a1a1a;
     </div>
     <div class="panel">
       <div class="panel-head"><h2>Customer Amortisation Schedule</h2></div>
-      <div class="scroll-hint">Scroll sideways to see full table</div>
+      <div class="scroll-hint">← Scroll sideways to see full table →</div>
       <div class="amort-wrap">
         <table class="amort-tbl">
           <thead><tr>
@@ -235,7 +241,6 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#1a1a1a;
       </div>
     </div>
   </div>
-</div>
 </div>
 
 <script>
@@ -363,3 +368,5 @@ function resetForm(){
 }
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.target.matches('button'))calc();});
 </script>
+</body>
+</html>
