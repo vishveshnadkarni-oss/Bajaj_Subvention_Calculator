@@ -21,12 +21,9 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#1a1a1a;
 .fld input:focus,.fld select:focus{border-color:#f5c300}
 .fld input::placeholder{color:#444}
 .fld select option{background:#1a1a1a;color:#f0f0f0}
-
-/* formatted text input for PO and Advance */
 .num-wrap{position:relative}
 .num-wrap .prefix{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#888;font-size:13px;pointer-events:none}
 .num-wrap input{padding-left:20px !important}
-
 .oem-chk{display:flex;align-items:center;gap:5px;margin-top:5px;cursor:pointer}
 .oem-chk input[type=checkbox]{display:none}
 .oem-box{width:13px;height:13px;border:1.5px solid #444;background:#1a1a1a;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
@@ -57,25 +54,25 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#1a1a1a;
 .sum-tbl{width:100%;border-collapse:collapse}
 .sum-tbl tr{border-bottom:1px solid #222}
 .sum-tbl tr:last-child{border-bottom:none}
-.sum-tbl td{padding:9px 16px;font-size:12px;vertical-align:middle}
-.sum-tbl td:first-child{color:#888;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;width:56%}
+.sum-tbl td{padding:10px 16px;font-size:13px;vertical-align:middle}
+.sum-tbl td:first-child{color:#aaa;font-size:12px;font-weight:400;width:56%}
 .sum-tbl td:last-child{font-weight:600;text-align:right;font-variant-numeric:tabular-nums;color:#f0f0f0}
 .r-head td{background:#000 !important;border-bottom:1px solid #333 !important}
-.r-head td:first-child{color:#f5c300 !important;font-size:10px !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important;padding:7px 16px !important}
-.r-head td:last-child{color:#f5c300 !important;text-align:right !important;font-size:12px !important;font-weight:700 !important;padding:7px 16px !important}
-.r-sub td:first-child{padding-left:30px !important;color:#555 !important;font-size:10px !important}
+.r-head td:first-child{color:#f5c300 !important;font-size:12px !important;font-weight:600 !important;padding:9px 16px !important}
+.r-head td:last-child{color:#f5c300 !important;text-align:right !important;font-size:13px !important;font-weight:700 !important;padding:9px 16px !important}
+.r-sub td:first-child{padding-left:28px !important;color:#555 !important;font-size:12px !important}
 .r-sub td:last-child{color:#777 !important;font-weight:400 !important}
-.r-sub-oem td:first-child{padding-left:30px !important;color:#666 !important;font-size:10px !important}
+.r-sub-oem td:first-child{padding-left:28px !important;color:#888 !important;font-size:12px !important}
 .r-sub-oem td:last-child{color:#f5c300 !important;font-weight:600 !important}
 .r-hl{background:#111 !important;border-top:1px solid #333 !important;border-bottom:1px solid #333 !important}
-.r-hl td:first-child{color:#ccc !important;font-size:11px !important;text-transform:none !important;letter-spacing:.03em !important;font-weight:700 !important}
-.r-hl td:last-child{font-size:15px !important;color:#fff !important}
-.r-green td:first-child{color:#4ade80 !important;font-size:11px !important;text-transform:none !important;letter-spacing:.03em !important}
+.r-hl td:first-child{color:#ddd !important;font-size:13px !important;font-weight:600 !important}
+.r-hl td:last-child{font-size:16px !important;color:#fff !important}
+.r-green td:first-child{color:#4ade80 !important;font-size:13px !important;font-weight:500 !important}
 .r-green td:last-child{color:#4ade80 !important;font-size:14px !important}
 .r-net{background:#f5c300 !important;border-top:2px solid #e0b000 !important}
-.r-net td{padding:12px 16px !important}
-.r-net td:first-child{color:#5a4500 !important;font-size:11px !important;font-weight:700 !important;text-transform:none !important;letter-spacing:.03em !important}
-.r-net td:last-child{color:#000 !important;font-size:17px !important;font-weight:700 !important}
+.r-net td{padding:13px 16px !important}
+.r-net td:first-child{color:#5a4500 !important;font-size:13px !important;font-weight:600 !important}
+.r-net td:last-child{color:#000 !important;font-size:18px !important;font-weight:700 !important}
 .amort-wrap{overflow-x:auto;max-height:360px;overflow-y:auto}
 .amort-tbl{width:100%;border-collapse:collapse;min-width:500px}
 .amort-tbl thead th{position:sticky;top:0;background:#000;padding:8px 12px;font-size:10px;font-weight:700;text-align:right;color:#888;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #f5c300;z-index:1}
@@ -229,8 +226,8 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#1a1a1a;
       <div class="amort-wrap">
         <table class="amort-tbl">
           <thead><tr>
-            <th>Month</th><th>Opening Principal</th><th>EMI</th>
-            <th>Interest</th><th>Principal Repaid</th><th>Closing Principal</th>
+            <th>Month</th><th>Opening principal</th><th>EMI</th>
+            <th>Interest</th><th>Principal repaid</th><th>Closing principal</th>
           </tr></thead>
           <tbody id="amortBody"></tbody>
           <tfoot id="amortFoot"></tfoot>
@@ -243,26 +240,19 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#1a1a1a;
 
 <script>
 let sub='No';
-
 function fmtField(el){
   const pos=el.selectionStart;
   const raw=el.value.replace(/,/g,'');
   if(raw===''||isNaN(raw)){el.value=raw;return;}
-  const num=parseInt(raw,10);
-  const formatted=num.toLocaleString('en-IN');
+  const formatted=parseInt(raw,10).toLocaleString('en-IN');
   el.value=formatted;
-  // restore cursor roughly
-  const added=(formatted.length-raw.length);
+  const added=formatted.length-raw.length;
   el.setSelectionRange(pos+added,pos+added);
 }
-
-function getRaw(id){
-  return parseFloat(document.getElementById(id).value.replace(/,/g,''))||0;
-}
-
+function getRaw(id){return parseFloat(document.getElementById(id).value.replace(/,/g,''))||0;}
 function setSub(v){
   sub=v;
-  document.getElementById('togNo').className ='tog'+(v==='No'?' no':'');
+  document.getElementById('togNo').className='tog'+(v==='No'?' no':'');
   document.getElementById('togYes').className='tog'+(v==='Yes'?' yes':'');
 }
 function n(id){return parseFloat(document.getElementById(id).value)||0;}
@@ -277,57 +267,68 @@ function calc(){
   const tenor=parseInt(sv('tenor'))||0, roiPct=n('roi'), state=sv('state');
   const pfA=n('pf'),insA=n('ins'),sdA=n('sd'),dcA=n('dc'),fcA=n('fc');
   const pfOEM=chk('pfS'),insOEM=chk('insS'),sdOEM=chk('sdS'),dcOEM=chk('dcS'),fcOEM=chk('fcS');
+
   const err=document.getElementById('errMsg');
   if(!po||!tenor||!roiPct){err.textContent='Please enter Purchase Order Value, Tenor and Rate of Interest.';err.style.display='block';return;}
   if(adv>=po){err.textContent='Advance must be less than Purchase Order Value.';err.style.display='block';return;}
   err.style.display='none';
 
-  const roi=roiPct/100,r=roi/12;
+  const roi=roiPct/100, r=roi/12;
   const balance=po-adv, marginPct=adv/po;
   const totalCharges=pfA+insA+sdA+dcA+fcA;
+
+  // OEM-borne charges are absorbed by OEM — customer does NOT repay them
+  // Non-OEM charges are capitalized into the customer's loan
   const oemCharges=(pfOEM?pfA:0)+(insOEM?insA:0)+(sdOEM?sdA:0)+(dcOEM?dcA:0)+(fcOEM?fcA:0);
   const nonOEMChg=totalCharges-oemCharges;
-  const finalLoan=balance+totalCharges;
-  const subvBase=balance+oemCharges;
 
-  const emi=sub==='Yes'?finalLoan/tenor:pmt(r,tenor,finalLoan);
+  // Customer's loan = Balance + charges the customer must repay (non-OEM only)
+  const custLoan=balance+nonOEMChg;
+
+  // Subvention base = custLoan (OEM pays the interest gap on what customer repays)
+  const emi=sub==='Yes'?custLoan/tenor:pmt(r,tenor,custLoan);
 
   let subvAmt=0;
-  if(sub==='Yes'){const pvCust=pvAnn(r,tenor,emi);subvAmt=(subvBase-pvCust)*1.18;if(subvAmt<0)subvAmt=0;}
+  if(sub==='Yes'){
+    const pvCust=pvAnn(r,tenor,emi);
+    subvAmt=(custLoan-pvCust)*1.18;
+    if(subvAmt<0)subvAmt=0;
+  }
 
-  const netToOEM=sub==='No'?balance:balance-subvAmt-nonOEMChg;
+  // Net to OEM = Balance - Subvention - OEM-borne charges (OEM pays these directly)
+  const netToOEM=sub==='No'?balance:balance-subvAmt-oemCharges;
 
   const today=new Date();
   const dateStr=today.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
   const oemTag=s=>s?' (OEM Bears)':'';
 
   const rows=[
-    {l:'Date',                                   v:dateStr,                             c:''},
-    {l:'Machine Value (Incl. of GST)',            v:fmtINR(po),                          c:''},
-    {l:'Advance Paid',                            v:fmtINR(adv),                         c:''},
-    {l:'Margin Money',                            v:(marginPct*100).toFixed(2)+'%',      c:''},
-    {l:'Final Loan Amount',                       v:fmtINR(finalLoan),                   c:'r-hl'},
-    {l:'Disbursement State',                      v:state||'—',                          c:''},
-    {l:'Loan Tenor',                              v:tenor+' months',                     c:''},
-    {l:'Rate of Interest',                        v:roiPct.toFixed(2)+'%',               c:''},
-    {l:'Total Charges',                           v:fmtINR(totalCharges),                c:'r-head'},
-    {l:'Processing Fee',                          v:fmtINR(pfA),                         c:pfOEM?'r-sub-oem':'r-sub'},
-    {l:'Insurance',                               v:fmtINR(insA),                        c:insOEM?'r-sub-oem':'r-sub'},
-    {l:'Stamp Duty',                              v:fmtINR(sdA),                         c:sdOEM?'r-sub-oem':'r-sub'},
-    {l:'Documentation Charges',                   v:fmtINR(dcA),                         c:dcOEM?'r-sub-oem':'r-sub'},
-    {l:'Hybrid Flexi Charge',                     v:fmtINR(fcA),                         c:fcOEM?'r-sub-oem':'r-sub'},
-    {l:'Customer EMI',                            v:fmtINR(emi),                         c:'r-hl'},
-    {l:'Total Subvention Amount (Incl. GST 18%)', v:fmtINR(subvAmt),                     c:'r-green'},
-    {l:'Net Payment to OEM',                      v:fmtINR(netToOEM),                    c:'r-net'},
+    {l:'Date',                                       v:dateStr,                         c:''},
+    {l:'Machine value (incl. of GST)',               v:fmtINR(po),                      c:''},
+    {l:'Advance paid',                               v:fmtINR(adv),                     c:''},
+    {l:'Margin money',                               v:(marginPct*100).toFixed(2)+'%',  c:''},
+    {l:'Final loan amount (payable by customer)',     v:fmtINR(custLoan),                c:'r-hl'},
+    {l:'Disbursement state',                         v:state||'—',                      c:''},
+    {l:'Loan tenor',                                 v:tenor+' months',                 c:''},
+    {l:'Rate of interest',                           v:roiPct.toFixed(2)+'%',           c:''},
+    {l:'Total charges',                              v:fmtINR(totalCharges),            c:'r-head'},
+    {l:'Processing fee',                             v:fmtINR(pfA),                     c:pfOEM?'r-sub-oem':'r-sub'},
+    {l:'Insurance',                                  v:fmtINR(insA),                    c:insOEM?'r-sub-oem':'r-sub'},
+    {l:'Stamp duty',                                 v:fmtINR(sdA),                     c:sdOEM?'r-sub-oem':'r-sub'},
+    {l:'Documentation charges',                      v:fmtINR(dcA),                     c:dcOEM?'r-sub-oem':'r-sub'},
+    {l:'Hybrid Flexi charge',                        v:fmtINR(fcA),                     c:fcOEM?'r-sub-oem':'r-sub'},
+    {l:'Customer EMI',                               v:fmtINR(emi),                     c:'r-hl'},
+    {l:'Total subvention amount (incl. GST 18%)',    v:fmtINR(subvAmt),                 c:'r-green'},
+    {l:'Net payment to OEM',                         v:fmtINR(netToOEM),                c:'r-net'},
   ];
 
   document.getElementById('sumTbl').innerHTML=rows.map(r=>`<tr class="${r.c}"><td>${r.l}</td><td>${r.v}</td></tr>`).join('');
 
   const custRate=sub==='Yes'?0:r;
-  let op=finalLoan,totE=0,totI=0,totP=0,tb='';
+  let op=custLoan, totE=0, totI=0, totP=0, tb='';
   for(let m=1;m<=tenor;m++){
-    const int=op*custRate,prin=emi-int,cl=Math.max(0,op-prin);
-    totE+=emi;totI+=int;totP+=prin;
+    const int=op*custRate, prin=emi-int, cl=Math.max(0,op-prin);
+    totE+=emi; totI+=int; totP+=prin;
     tb+=`<tr><td>${m}</td><td>${fmtINR(op)}</td><td>${fmtINR(emi)}</td><td>${fmtINR(int)}</td><td>${fmtINR(prin)}</td><td>${fmtINR(cl)}</td></tr>`;
     op=cl;
   }
@@ -339,26 +340,26 @@ function calc(){
   window._exp=
 `*BAJAJ FINANCE — DEAL SUMMARY*
 ─────────────────────────────────
-DATE: ${dateStr}
-MACHINE VALUE (INCL. GST): ${fmtINR(po)}
-ADVANCE PAID: ${fmtINR(adv)}
-MARGIN MONEY: ${(marginPct*100).toFixed(2)}%
-FINAL LOAN AMOUNT: ${fmtINR(finalLoan)}
-STATE: ${state||'—'}
-TENOR: ${tenor} months
-RATE OF INTEREST: ${roiPct.toFixed(2)}%
+Date: ${dateStr}
+Machine value (incl. GST): ${fmtINR(po)}
+Advance paid: ${fmtINR(adv)}
+Margin money: ${(marginPct*100).toFixed(2)}%
+Final loan amount (payable by customer): ${fmtINR(custLoan)}
+State: ${state||'—'}
+Tenor: ${tenor} months
+Rate of interest: ${roiPct.toFixed(2)}%
 
-*CHARGES — ${fmtINR(totalCharges)}*
-  Processing Fee: ${fmtINR(pfA)}${oemTag(pfOEM)}
+*Charges — ${fmtINR(totalCharges)}*
+  Processing fee: ${fmtINR(pfA)}${oemTag(pfOEM)}
   Insurance: ${fmtINR(insA)}${oemTag(insOEM)}
-  Stamp Duty: ${fmtINR(sdA)}${oemTag(sdOEM)}
+  Stamp duty: ${fmtINR(sdA)}${oemTag(sdOEM)}
   Documentation: ${fmtINR(dcA)}${oemTag(dcOEM)}
   Hybrid Flexi: ${fmtINR(fcA)}${oemTag(fcOEM)}
 
 ─────────────────────────────────
-CUSTOMER EMI: *${fmtINR(emi)}*
-SUBVENTION AMOUNT (INCL. GST): *${fmtINR(subvAmt)}*
-NET PAYMENT TO OEM: *${fmtINR(netToOEM)}*
+Customer EMI: *${fmtINR(emi)}*
+Subvention amount (incl. GST): *${fmtINR(subvAmt)}*
+Net payment to OEM: *${fmtINR(netToOEM)}*
 ─────────────────────────────────`;
 }
 
