@@ -1,0 +1,387 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#1a1a1a;color:#f0f0f0;font-size:13px;line-height:1.5;min-height:100vh}
+.hdr{background:#000;border-bottom:3px solid #f5c300;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.hdr-logo{display:flex;align-items:center;gap:12px}
+.hdr-badge{background:#f5c300;color:#000;font-size:10px;font-weight:700;letter-spacing:.1em;padding:3px 8px;text-transform:uppercase}
+.hdr-title{font-size:16px;font-weight:700;color:#fff;letter-spacing:.02em}
+.hdr-sub{font-size:10px;color:#888;letter-spacing:.08em;text-transform:uppercase;margin-top:1px}
+.wrap{max-width:840px;margin:0 auto;padding:20px 16px 48px}
+.panel{background:#111;border:1px solid #2a2a2a;border-top:2px solid #f5c300;margin-bottom:16px}
+.panel-head{background:#000;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2a2a2a}
+.panel-head h2{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#f5c300}
+.panel-body{padding:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media(max-width:600px){.g3,.g5{grid-template-columns:1fr 1fr}}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#888}
+.fld input,.fld select{background:#1a1a1a;border:1px solid #333;color:#f0f0f0;padding:8px 10px;font-size:13px;font-family:inherit;outline:none;transition:border-color .15s;width:100%;-webkit-appearance:none;appearance:none}
+.fld input:focus,.fld select:focus{border-color:#f5c300}
+.fld input::placeholder{color:#444}
+.fld select option{background:#1a1a1a;color:#f0f0f0}
+
+/* formatted text input for PO and Advance */
+.num-wrap{position:relative}
+.num-wrap .prefix{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#888;font-size:13px;pointer-events:none}
+.num-wrap input{padding-left:20px !important}
+
+.oem-chk{display:flex;align-items:center;gap:5px;margin-top:5px;cursor:pointer}
+.oem-chk input[type=checkbox]{display:none}
+.oem-box{width:13px;height:13px;border:1.5px solid #444;background:#1a1a1a;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.oem-box svg{display:none;width:9px;height:9px}
+.oem-chk input:checked ~ .oem-box{background:#f5c300;border-color:#f5c300}
+.oem-chk input:checked ~ .oem-box svg{display:block}
+.oem-chk input:checked ~ .oem-lbl{color:#f5c300}
+.oem-lbl{font-size:10px;color:#555;font-weight:700;letter-spacing:.07em;text-transform:uppercase;transition:color .15s;user-select:none}
+.tog-row{display:flex;gap:0}
+.tog{flex:1;padding:8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid #333;background:transparent;color:#555;cursor:pointer;font-family:inherit;transition:all .15s}
+.tog:first-child{border-right:none}
+.tog.yes{background:#f5c300;border-color:#f5c300;color:#000}
+.tog.no{background:#222;border-color:#444;color:#f0f0f0}
+.div{height:1px;background:#2a2a2a;margin:14px 0}
+.sec-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#666;margin-bottom:10px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.btn-calc{background:#f5c300;color:#000;border:none;padding:10px 28px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.btn-calc:hover{opacity:.85}
+.btn-reset{background:transparent;color:#666;border:1px solid #333;padding:9px 16px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-reset:hover{color:#f0f0f0;border-color:#555}
+.btn-copy{background:transparent;color:#f5c300;border:1px solid #f5c300;padding:7px 14px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-copy:hover{background:#f5c300;color:#000}
+.copied{font-size:10px;color:#f5c300;letter-spacing:.06em;text-transform:uppercase;margin-left:4px;opacity:0;transition:opacity .3s}
+.copied.show{opacity:1}
+.err{background:#1a0a0a;border:1px solid #5c1a1a;color:#f87171;padding:10px 14px;font-size:12px;margin-bottom:12px;display:none;letter-spacing:.02em}
+.result{display:none}
+.result.show{display:block}
+.sum-tbl{width:100%;border-collapse:collapse}
+.sum-tbl tr{border-bottom:1px solid #222}
+.sum-tbl tr:last-child{border-bottom:none}
+.sum-tbl td{padding:9px 16px;font-size:12px;vertical-align:middle}
+.sum-tbl td:first-child{color:#888;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;width:56%}
+.sum-tbl td:last-child{font-weight:600;text-align:right;font-variant-numeric:tabular-nums;color:#f0f0f0}
+.r-head td{background:#000 !important;border-bottom:1px solid #333 !important}
+.r-head td:first-child{color:#f5c300 !important;font-size:10px !important;font-weight:700 !important;letter-spacing:.12em !important;text-transform:uppercase !important;padding:7px 16px !important}
+.r-head td:last-child{color:#f5c300 !important;text-align:right !important;font-size:12px !important;font-weight:700 !important;padding:7px 16px !important}
+.r-sub td:first-child{padding-left:30px !important;color:#555 !important;font-size:10px !important}
+.r-sub td:last-child{color:#777 !important;font-weight:400 !important}
+.r-sub-oem td:first-child{padding-left:30px !important;color:#666 !important;font-size:10px !important}
+.r-sub-oem td:last-child{color:#f5c300 !important;font-weight:600 !important}
+.r-hl{background:#111 !important;border-top:1px solid #333 !important;border-bottom:1px solid #333 !important}
+.r-hl td:first-child{color:#ccc !important;font-size:11px !important;text-transform:none !important;letter-spacing:.03em !important;font-weight:700 !important}
+.r-hl td:last-child{font-size:15px !important;color:#fff !important}
+.r-green td:first-child{color:#4ade80 !important;font-size:11px !important;text-transform:none !important;letter-spacing:.03em !important}
+.r-green td:last-child{color:#4ade80 !important;font-size:14px !important}
+.r-net{background:#f5c300 !important;border-top:2px solid #e0b000 !important}
+.r-net td{padding:12px 16px !important}
+.r-net td:first-child{color:#5a4500 !important;font-size:11px !important;font-weight:700 !important;text-transform:none !important;letter-spacing:.03em !important}
+.r-net td:last-child{color:#000 !important;font-size:17px !important;font-weight:700 !important}
+.amort-wrap{overflow-x:auto;max-height:360px;overflow-y:auto}
+.amort-tbl{width:100%;border-collapse:collapse;min-width:500px}
+.amort-tbl thead th{position:sticky;top:0;background:#000;padding:8px 12px;font-size:10px;font-weight:700;text-align:right;color:#888;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #f5c300;z-index:1}
+.amort-tbl thead th:first-child{text-align:center;width:56px}
+.amort-tbl tbody td{padding:7px 12px;font-size:12px;text-align:right;border-bottom:1px solid #1e1e1e;font-variant-numeric:tabular-nums;color:#ccc}
+.amort-tbl tbody td:first-child{text-align:center;color:#555;font-weight:700}
+.amort-tbl tbody tr:hover td{background:#161616}
+.amort-tbl tfoot td{padding:8px 12px;font-size:11px;font-weight:700;text-align:right;background:#000;border-top:1px solid #f5c300;color:#f5c300;font-variant-numeric:tabular-nums}
+.amort-tbl tfoot td:first-child{text-align:center}
+</style>
+
+<div>
+<div class="hdr">
+  <div class="hdr-logo">
+    <div class="hdr-badge">Bajaj Finance</div>
+    <div>
+      <div class="hdr-title">Subvention Calculator</div>
+      <div class="hdr-sub">Internal Deal Tool</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div id="errMsg" class="err"></div>
+
+  <div class="panel">
+    <div class="panel-head"><h2>Deal Parameters</h2></div>
+    <div class="panel-body">
+      <div class="g3">
+        <div class="fld">
+          <label>Purchase Order Value (₹)</label>
+          <div class="num-wrap">
+            <span class="prefix">₹</span>
+            <input type="text" id="po" placeholder="e.g. 10,00,000" oninput="fmtField(this)" inputmode="numeric"/>
+          </div>
+        </div>
+        <div class="fld">
+          <label>Advance Paid (₹)</label>
+          <div class="num-wrap">
+            <span class="prefix">₹</span>
+            <input type="text" id="adv" placeholder="e.g. 2,00,000" oninput="fmtField(this)" inputmode="numeric"/>
+          </div>
+        </div>
+        <div class="fld">
+          <label>Loan Tenor (months)</label>
+          <input type="number" id="tenor" placeholder="1–84" min="1" max="84"/>
+        </div>
+        <div class="fld">
+          <label>Rate of Interest (%)</label>
+          <input type="number" id="roi" placeholder="e.g. 10" min="0" max="100" step="0.01"/>
+        </div>
+        <div class="fld">
+          <label>Disbursement State</label>
+          <select id="state">
+            <option value="">— Select State —</option>
+            <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
+            <option>Bihar</option><option>Chhattisgarh</option><option>Delhi *</option>
+            <option>Goa</option><option>Gujarat</option><option>Haryana</option>
+            <option>Himachal Pradesh</option><option>Jammu & Kashmir</option><option>Jharkhand</option>
+            <option>Karnataka</option><option>Kerala</option><option>Madhya Pradesh</option>
+            <option>Maharashtra</option><option>Manipur</option><option>Meghalaya</option>
+            <option>Mizoram</option><option>Nagaland</option><option>Orissa</option>
+            <option>Pondicherry *</option><option>Punjab</option><option>Rajasthan</option>
+            <option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+            <option>Tripura</option><option>Uttar Pradesh</option><option>Uttaranchal</option>
+            <option>West Bengal</option><option>Andaman & Nicobar Islands *</option>
+            <option>Chandigarh *</option><option>Dadra & Nagar Haveli *</option>
+            <option>Daman & Diu *</option><option>Lakshadweep *</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label>Subvention</label>
+          <div class="tog-row">
+            <button class="tog no" id="togNo"  onclick="setSub('No')">No</button>
+            <button class="tog"    id="togYes" onclick="setSub('Yes')">Yes</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="div"></div>
+      <div class="sec-label">Charges — check "OEM Bears" if this charge is under OEM subvention</div>
+
+      <div class="g5">
+        <div class="fld">
+          <label>Processing Fee (₹)</label>
+          <input type="number" id="pf" placeholder="incl. GST" min="0"/>
+          <label class="oem-chk" for="pfS">
+            <input type="checkbox" id="pfS"/>
+            <span class="oem-box"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 4,7 9,1" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="oem-lbl">OEM Bears</span>
+          </label>
+        </div>
+        <div class="fld">
+          <label>Insurance (₹)</label>
+          <input type="number" id="ins" placeholder="0" min="0"/>
+          <label class="oem-chk" for="insS">
+            <input type="checkbox" id="insS"/>
+            <span class="oem-box"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 4,7 9,1" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="oem-lbl">OEM Bears</span>
+          </label>
+        </div>
+        <div class="fld">
+          <label>Stamp Duty (₹)</label>
+          <input type="number" id="sd" placeholder="Enter for state" min="0"/>
+          <label class="oem-chk" for="sdS">
+            <input type="checkbox" id="sdS"/>
+            <span class="oem-box"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 4,7 9,1" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="oem-lbl">OEM Bears</span>
+          </label>
+        </div>
+        <div class="fld">
+          <label>Documentation (₹)</label>
+          <input type="number" id="dc" placeholder="0" min="0"/>
+          <label class="oem-chk" for="dcS">
+            <input type="checkbox" id="dcS"/>
+            <span class="oem-box"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 4,7 9,1" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="oem-lbl">OEM Bears</span>
+          </label>
+        </div>
+        <div class="fld">
+          <label>Hybrid Flexi (₹)</label>
+          <input type="number" id="fc" placeholder="0" min="0"/>
+          <label class="oem-chk" for="fcS">
+            <input type="checkbox" id="fcS"/>
+            <span class="oem-box"><svg viewBox="0 0 10 8" fill="none"><polyline points="1,4 4,7 9,1" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="oem-lbl">OEM Bears</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-calc" onclick="calc()">Calculate</button>
+        <button class="btn-reset" onclick="resetForm()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="result" id="result">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Deal Summary</h2>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button class="btn-copy" onclick="copyText()">Copy for WhatsApp / Email</button>
+          <span class="copied" id="copiedMsg">Copied</span>
+        </div>
+      </div>
+      <table class="sum-tbl" id="sumTbl"></table>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>Customer Amortisation Schedule</h2></div>
+      <div class="amort-wrap">
+        <table class="amort-tbl">
+          <thead><tr>
+            <th>Month</th><th>Opening Principal</th><th>EMI</th>
+            <th>Interest</th><th>Principal Repaid</th><th>Closing Principal</th>
+          </tr></thead>
+          <tbody id="amortBody"></tbody>
+          <tfoot id="amortFoot"></tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+let sub='No';
+
+function fmtField(el){
+  const pos=el.selectionStart;
+  const raw=el.value.replace(/,/g,'');
+  if(raw===''||isNaN(raw)){el.value=raw;return;}
+  const num=parseInt(raw,10);
+  const formatted=num.toLocaleString('en-IN');
+  el.value=formatted;
+  // restore cursor roughly
+  const added=(formatted.length-raw.length);
+  el.setSelectionRange(pos+added,pos+added);
+}
+
+function getRaw(id){
+  return parseFloat(document.getElementById(id).value.replace(/,/g,''))||0;
+}
+
+function setSub(v){
+  sub=v;
+  document.getElementById('togNo').className ='tog'+(v==='No'?' no':'');
+  document.getElementById('togYes').className='tog'+(v==='Yes'?' yes':'');
+}
+function n(id){return parseFloat(document.getElementById(id).value)||0;}
+function sv(id){return document.getElementById(id).value;}
+function chk(id){return document.getElementById(id).checked;}
+function fmtINR(v){return v===undefined||isNaN(v)?'—':'₹'+Math.round(v).toLocaleString('en-IN');}
+function pmt(r,n,pv){return r===0?pv/n:pv*r/(1-Math.pow(1+r,-n));}
+function pvAnn(r,n,emi){return r===0?emi*n:emi*(1-Math.pow(1+r,-n))/r;}
+
+function calc(){
+  const po=getRaw('po'), adv=getRaw('adv');
+  const tenor=parseInt(sv('tenor'))||0, roiPct=n('roi'), state=sv('state');
+  const pfA=n('pf'),insA=n('ins'),sdA=n('sd'),dcA=n('dc'),fcA=n('fc');
+  const pfOEM=chk('pfS'),insOEM=chk('insS'),sdOEM=chk('sdS'),dcOEM=chk('dcS'),fcOEM=chk('fcS');
+  const err=document.getElementById('errMsg');
+  if(!po||!tenor||!roiPct){err.textContent='Please enter Purchase Order Value, Tenor and Rate of Interest.';err.style.display='block';return;}
+  if(adv>=po){err.textContent='Advance must be less than Purchase Order Value.';err.style.display='block';return;}
+  err.style.display='none';
+
+  const roi=roiPct/100,r=roi/12;
+  const balance=po-adv, marginPct=adv/po;
+  const totalCharges=pfA+insA+sdA+dcA+fcA;
+  const oemCharges=(pfOEM?pfA:0)+(insOEM?insA:0)+(sdOEM?sdA:0)+(dcOEM?dcA:0)+(fcOEM?fcA:0);
+  const nonOEMChg=totalCharges-oemCharges;
+  const finalLoan=balance+totalCharges;
+  const subvBase=balance+oemCharges;
+
+  const emi=sub==='Yes'?finalLoan/tenor:pmt(r,tenor,finalLoan);
+
+  let subvAmt=0;
+  if(sub==='Yes'){const pvCust=pvAnn(r,tenor,emi);subvAmt=(subvBase-pvCust)*1.18;if(subvAmt<0)subvAmt=0;}
+
+  const netToOEM=sub==='No'?balance:balance-subvAmt-nonOEMChg;
+
+  const today=new Date();
+  const dateStr=today.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  const oemTag=s=>s?' (OEM Bears)':'';
+
+  const rows=[
+    {l:'Date',                                   v:dateStr,                             c:''},
+    {l:'Machine Value (Incl. of GST)',            v:fmtINR(po),                          c:''},
+    {l:'Advance Paid',                            v:fmtINR(adv),                         c:''},
+    {l:'Margin Money',                            v:(marginPct*100).toFixed(2)+'%',      c:''},
+    {l:'Final Loan Amount',                       v:fmtINR(finalLoan),                   c:'r-hl'},
+    {l:'Disbursement State',                      v:state||'—',                          c:''},
+    {l:'Loan Tenor',                              v:tenor+' months',                     c:''},
+    {l:'Rate of Interest',                        v:roiPct.toFixed(2)+'%',               c:''},
+    {l:'Total Charges',                           v:fmtINR(totalCharges),                c:'r-head'},
+    {l:'Processing Fee',                          v:fmtINR(pfA),                         c:pfOEM?'r-sub-oem':'r-sub'},
+    {l:'Insurance',                               v:fmtINR(insA),                        c:insOEM?'r-sub-oem':'r-sub'},
+    {l:'Stamp Duty',                              v:fmtINR(sdA),                         c:sdOEM?'r-sub-oem':'r-sub'},
+    {l:'Documentation Charges',                   v:fmtINR(dcA),                         c:dcOEM?'r-sub-oem':'r-sub'},
+    {l:'Hybrid Flexi Charge',                     v:fmtINR(fcA),                         c:fcOEM?'r-sub-oem':'r-sub'},
+    {l:'Customer EMI',                            v:fmtINR(emi),                         c:'r-hl'},
+    {l:'Total Subvention Amount (Incl. GST 18%)', v:fmtINR(subvAmt),                     c:'r-green'},
+    {l:'Net Payment to OEM',                      v:fmtINR(netToOEM),                    c:'r-net'},
+  ];
+
+  document.getElementById('sumTbl').innerHTML=rows.map(r=>`<tr class="${r.c}"><td>${r.l}</td><td>${r.v}</td></tr>`).join('');
+
+  const custRate=sub==='Yes'?0:r;
+  let op=finalLoan,totE=0,totI=0,totP=0,tb='';
+  for(let m=1;m<=tenor;m++){
+    const int=op*custRate,prin=emi-int,cl=Math.max(0,op-prin);
+    totE+=emi;totI+=int;totP+=prin;
+    tb+=`<tr><td>${m}</td><td>${fmtINR(op)}</td><td>${fmtINR(emi)}</td><td>${fmtINR(int)}</td><td>${fmtINR(prin)}</td><td>${fmtINR(cl)}</td></tr>`;
+    op=cl;
+  }
+  document.getElementById('amortBody').innerHTML=tb;
+  document.getElementById('amortFoot').innerHTML=`<tr><td>Total</td><td></td><td>${fmtINR(totE)}</td><td>${fmtINR(totI)}</td><td>${fmtINR(totP)}</td><td></td></tr>`;
+  document.getElementById('result').classList.add('show');
+  document.getElementById('result').scrollIntoView({behavior:'smooth',block:'start'});
+
+  window._exp=
+`*BAJAJ FINANCE — DEAL SUMMARY*
+─────────────────────────────────
+DATE: ${dateStr}
+MACHINE VALUE (INCL. GST): ${fmtINR(po)}
+ADVANCE PAID: ${fmtINR(adv)}
+MARGIN MONEY: ${(marginPct*100).toFixed(2)}%
+FINAL LOAN AMOUNT: ${fmtINR(finalLoan)}
+STATE: ${state||'—'}
+TENOR: ${tenor} months
+RATE OF INTEREST: ${roiPct.toFixed(2)}%
+
+*CHARGES — ${fmtINR(totalCharges)}*
+  Processing Fee: ${fmtINR(pfA)}${oemTag(pfOEM)}
+  Insurance: ${fmtINR(insA)}${oemTag(insOEM)}
+  Stamp Duty: ${fmtINR(sdA)}${oemTag(sdOEM)}
+  Documentation: ${fmtINR(dcA)}${oemTag(dcOEM)}
+  Hybrid Flexi: ${fmtINR(fcA)}${oemTag(fcOEM)}
+
+─────────────────────────────────
+CUSTOMER EMI: *${fmtINR(emi)}*
+SUBVENTION AMOUNT (INCL. GST): *${fmtINR(subvAmt)}*
+NET PAYMENT TO OEM: *${fmtINR(netToOEM)}*
+─────────────────────────────────`;
+}
+
+function copyText(){
+  if(!window._exp)return;
+  const el=document.getElementById('copiedMsg');
+  const show=()=>{el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2500);};
+  navigator.clipboard.writeText(window._exp).then(show).catch(()=>{
+    const t=document.createElement('textarea');t.value=window._exp;
+    document.body.appendChild(t);t.select();document.execCommand('copy');
+    document.body.removeChild(t);show();
+  });
+}
+
+function resetForm(){
+  document.getElementById('po').value='';
+  document.getElementById('adv').value='';
+  ['tenor','roi','pf','ins','sd','dc','fc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('state').value='';
+  ['pfS','insS','sdS','dcS','fcS'].forEach(id=>document.getElementById(id).checked=false);
+  setSub('No');
+  document.getElementById('result').classList.remove('show');
+  document.getElementById('errMsg').style.display='none';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.target.matches('button'))calc();});
+</script>
