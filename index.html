@@ -243,7 +243,7 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#1a1a1a;
         <h2>Deal Summary</h2>
         <div class="copy-btns">
           <button class="btn-wa" onclick="copyWA()">Copy for WhatsApp</button>
-          <button class="btn-email" onclick="copyEmail()">Copy for Email</button>
+          <button class="btn-email" onclick="openEmail()">&#128233; Email Table</button>
           <span class="copied" id="copiedMsg"></span>
         </div>
       </div>
@@ -253,7 +253,7 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#1a1a1a;
       <div class="panel-head">
         <h2>Customer Amortisation Schedule</h2>
         <div class="copy-btns">
-          <button class="btn-email" onclick="copyAmort()">Copy Amortisation for Email</button>
+          <button class="btn-email" onclick="openAmort()">&#128233; Email Amortisation</button>
           <span class="copied" id="copiedAmortMsg"></span>
         </div>
       </div>
@@ -489,8 +489,10 @@ function copyEmail(){
   ${row('Net Payment to OEM',f(d.netToOEM),'#f2f2f2',true)}
 </table>`;
 
-  copyHtmlToClipboard(html, 'copiedMsg', 'Copied \u2014 paste into Gmail or Outlook');
+  openHtmlInNewTab(html, 'Deal Summary');
 }
+
+function openEmail(){ copyEmail(); }
 
 /* ── Copy Amortisation Schedule as HTML table for email ── */
 function copyAmort(){
@@ -542,7 +544,35 @@ function copyAmort(){
   </tr>
 </table>`;
 
-  copyHtmlToClipboard(html, 'copiedAmortMsg', 'Copied \u2014 paste into Gmail or Outlook');
+  openHtmlInNewTab(html, 'Amortisation Schedule');
+}
+
+function openAmort(){ copyAmort(); }
+
+/* ── Open HTML table in a new tab — works on desktop AND mobile ── */
+function openHtmlInNewTab(tableHtml, title){
+  const page=`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Bajaj Finance \u2014 ${title}</title>
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;background:#f5f5f5;padding:20px;margin:0}
+  .inst{background:#1a1a1a;color:#f5c300;padding:14px 18px;margin-bottom:20px;font-size:14px;font-weight:600;border-left:4px solid #f5c300;line-height:1.6}
+  .inst span{color:#ffffff;font-weight:400}
+  table{border-collapse:collapse;width:100%;max-width:700px}
+</style>
+</head><body>
+<div class="inst">
+  To copy this table into your email:<br/>
+  <span>1. Press <b>Ctrl+A</b> (or long-press and Select All on mobile)</span><br/>
+  <span>2. Press <b>Ctrl+C</b> to copy (or tap Copy)</span><br/>
+  <span>3. Paste directly into <b>Gmail or Outlook</b> \u2014 the table will appear formatted</span>
+</div>
+${tableHtml}
+</body></html>`;
+  const blob=new Blob([page],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  window.open(url,'_blank');
+  setTimeout(()=>URL.revokeObjectURL(url),60000);
 }
 
 /* ── Core HTML copy using hidden contenteditable div (works on all browsers) ── */
