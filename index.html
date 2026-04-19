@@ -415,8 +415,8 @@ function copyWA(){
   const d=_d; if(!d.dateStr)return;
   const oemTag=s=>s?' (OEM Bears)':'';
   const txt=
-`*BAJAJ FINANCE \u2014 DEAL SUMMARY*
-\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+`*BAJAJ FINANCE \u2014 DEAL SUMMARY*\n_These are tentative values_
+\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 Date: ${d.dateStr}
 Machine value (incl. GST): ${fmtINRplain(d.po)}
 Advance paid: ${fmtINRplain(d.adv)}
@@ -433,11 +433,11 @@ Rate of interest: ${d.roiPct.toFixed(2)}%
   Documentation: ${fmtINRplain(d.dcA)}${oemTag(d.dcOEM)}
   Hybrid Flexi: ${fmtINRplain(d.fcA)}${oemTag(d.fcOEM)}
 
-\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 Customer EMI: *${fmtINRplain(d.emi)}*
 Subvention amount (incl. GST): *${fmtINRplain(d.subvAmt)}*
 Net payment to OEM: *${fmtINRplain(d.netToOEM)}*
-\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500`;
+\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500`;
   doCopyText(txt,'Copied for WhatsApp','#25d366');
 }
 
