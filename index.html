@@ -401,13 +401,13 @@ function calc(){
   let subvAmt=0;
   if(sub==='Yes'||sub==='Split'){
     // Bajaj method: PV of monthly interest differential (BFL rate - cust rate)
-    // discounted at customer rate, then x1.18 GST
-    // For full subvention: custR=0, so differential = BFL rate on outstanding
-    // For split: differential = (BFL - cust) rate on outstanding
+    // Full subvention (custR=0): discount at BFL rate
+    // Split subvention (custR>0): discount at customer rate
+    const discR = custR > 0 ? custR : r;
     let op=custLoan, pvDiff=0;
     for(let m=1;m<=tenor;m++){
-      const diff=op*(r-custR);          // OEM pays this each month
-      pvDiff+=diff/Math.pow(1+custR,m); // PV at customer rate
+      const diff=op*(r-custR);           // OEM pays this each month
+      pvDiff+=diff/Math.pow(1+discR,m);  // PV at appropriate rate
       const custInt=op*custR;
       const prin=emi-custInt;
       op-=prin;
