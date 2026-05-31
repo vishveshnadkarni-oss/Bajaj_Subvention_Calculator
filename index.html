@@ -400,8 +400,19 @@ function calc(){
 
   let subvAmt=0;
   if(sub==='Yes'||sub==='Split'){
-    const pvc=pvAnn(r,tenor,emi);
-    subvAmt=(custLoan-pvc)*1.18;
+    // Bajaj method: PV of monthly interest differential (BFL rate - cust rate)
+    // discounted at customer rate, then x1.18 GST
+    // For full subvention: custR=0, so differential = BFL rate on outstanding
+    // For split: differential = (BFL - cust) rate on outstanding
+    let op=custLoan, pvDiff=0;
+    for(let m=1;m<=tenor;m++){
+      const diff=op*(r-custR);          // OEM pays this each month
+      pvDiff+=diff/Math.pow(1+custR,m); // PV at customer rate
+      const custInt=op*custR;
+      const prin=emi-custInt;
+      op-=prin;
+    }
+    subvAmt=pvDiff*1.18;
     if(subvAmt<0)subvAmt=0;
   }
   const netToOEM=sub==='No'?balance:balance-subvAmt-oemCharges;
@@ -548,7 +559,7 @@ function copyAmort(){
   const ff='font-family:Arial,Helvetica,sans-serif';
   const pad='padding:7px 10px';
 
-  const custRate=d.sub==='Yes'?0:d.roiPct/100/12;
+  const custRate=d.custRoiPct/100/12;
   let op=d.custLoan, totE=0, totI=0, totP=0;
   let rows='';
   for(let m=1;m<=d.tenor;m++){
